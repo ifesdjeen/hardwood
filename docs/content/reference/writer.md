@@ -412,6 +412,8 @@ Every other arrangement of repetition is rejected when the writer is created, si
 - a `LIST` or `MAP` group holding anything other than its single `REPEATED` entry;
 - a `MAP` whose entry is a leaf rather than a group.
 
+A `MAP` key must be `REQUIRED`, including in a key-only map. `ParquetFileWriter.create` rejects a schema with an `OPTIONAL` key with `UnsupportedOperationException` before opening the destination, even if all key values would be present. This also applies to schemas read from existing files.
+
 A `FILE` group with no children is rejected with `UnsupportedOperationException` when the writer is created.
 
 The row API reaches a list's values through an element node below the entry, which the legacy two-level lists do not have, so `rowWriter()` refuses those two shapes and `columnWriter()` writes them. `rowWriter()` also requires sibling field names to be unique, which the `ColumnBatch` indices and dotted paths do not.
